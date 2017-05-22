@@ -98,6 +98,7 @@ aws s3 cp --recursive ./www s3://WEBSITE_BUCKET
 Where `WEBSITE_BUCKET` is an S3 bucket configured with static hosting.
 
 ### Running app in Cloud9
+```
 sudo apt-get install python3.4
 sudo apt-get update && sudo apt-get install -y python-pip libpython-dev python-dev
 sudo pip install awscli --upgrade
@@ -108,3 +109,4 @@ git clone https://github.com/munseym/cldaws230bsp17
 cd cldaws230bsp17
 npm install
 ionic serve -p $PORT --nolivereload
+```
