@@ -3,11 +3,6 @@
     <ion-title>
       View Reservations 
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addTask()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -20,14 +15,12 @@
                   refreshingText="Refreshing...">
     </ion-refresher-content>
   </ion-refresher>
-
-    <input type="date">
-
+  
     <ion-list>
       <ion-item-sliding *ngFor="let item of items; let idx = index;">
         <button ion-item>
-          <h2>{{item.category}}</h2>
-          <p>{{item.description}}</p>
+          <h2>{{item.Date}}</h2>
+          <p>{{item.SourceCity}} > {{item.DestinationCity}}</p>
         </button>
 
         <ion-item-options>

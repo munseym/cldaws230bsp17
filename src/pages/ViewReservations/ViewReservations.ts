@@ -7,7 +7,7 @@ import { DynamoDB, User } from '../../providers/providers';
 declare var AWS: any;
 
 @Component({
-  selector: 'page-tasks',
+  selector: 'page-view-reservations',
   templateUrl: 'ViewReservations.html'
 })
 export class ViewReservationsPage {
@@ -21,15 +21,15 @@ export class ViewReservationsPage {
               public user: User,
               public db: DynamoDB) {
 
-    //this.refreshTasks();
+    this.refreshReservations();
   }
 
   refreshData(refresher) {
     this.refresher = refresher;
-    //this.refreshTasks()
+    this.refreshReservations()
   }
 
-  refreshTasks() {
+  refreshReservations() {
     var self = this;
     this.db.getDocumentClient().query({
       'TableName': self.taskTable,
@@ -52,52 +52,19 @@ export class ViewReservationsPage {
     });
   }
 
-  generateId() {
-    var len = 16;
-    var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charLength = chars.length;
-    var result = "";
-    let randoms = window.crypto.getRandomValues(new Uint32Array(len));
-    for(var i = 0; i < len; i++) {
-      result += chars[randoms[i] % charLength];
-    }
-    return result.toLowerCase();
-  }
-
-  addTask() {
-    let id = this.generateId();
-    let self = this;
-
-    let item = {
-      'userId': AWS.config.credentials.identityId,
-      'reservationId': id,
-      'SourceCity': 'SFO',
-      'DestinationCity': 'LAX',
-      'Date': '6/20/2017'
-    };
-    self.db.getDocumentClient().put({
-      'TableName': self.taskTable,
-      'Item': item,
-      'ConditionExpression': 'attribute_not_exists(id)'
-    }, function(err, data) {
-      if (err) { console.log(err); }
-      self.refreshTasks();
-    });
-  }
-
   deleteTask(task, index) {
-    let self = this;
-    this.db.getDocumentClient().delete({
-      'TableName': self.taskTable,
-      'Key': {
-        'userId': AWS.config.credentials.identityId,
-        'taskId': task.taskId
-      }
-    }).promise().then((data) => {
-      this.items.splice(index, 1);
-    }).catch((err) => {
-      console.log('there was an error', err);
-    });
+    // let self = this;
+    // this.db.getDocumentClient().delete({
+    //   'TableName': self.taskTable,
+    //   'Key': {
+    //     'userId': AWS.config.credentials.identityId,
+    //     'taskId': task.taskId
+    //   }
+    // }).promise().then((data) => {
+    //   this.items.splice(index, 1);
+    // }).catch((err) => {
+    //   console.log('there was an error', err);
+    // });
   }
 
 }
