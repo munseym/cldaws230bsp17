@@ -14,7 +14,7 @@ export class MakeReservationPage {
 
   public items: any;
   public refresher: any;
-  private taskTable: string = 'Reservations';
+  private taskTable: string = 'airlinereservation-mobilehub-779853671-Reservations';
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
@@ -33,7 +33,6 @@ export class MakeReservationPage {
     var self = this;
     this.db.getDocumentClient().query({
       'TableName': self.taskTable,
-      'IndexName': 'DateSorted',
       'KeyConditionExpression': "#userId = :userId",
       'ExpressionAttributeNames': {
         '#userId': 'userId',
