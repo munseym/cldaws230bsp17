@@ -15,6 +15,8 @@ import { AccountPage } from '../pages/account/account';
 import { TabsPage } from '../pages/tabs/tabs';
 import { TasksPage } from '../pages/tasks/tasks';
 import { MakeReservationPage } from '../pages/MakeReservation/MakeReservation';
+import { ViewReservationsPage } from '../pages/ViewReservations/ViewReservations';
+import { ViewTicketsPage } from '../pages/ViewTickets/ViewTickets';
 import { TasksCreatePage } from '../pages/tasks-create/tasks-create';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -36,7 +38,9 @@ import { DynamoDB } from '../providers/aws.dynamodb';
     TabsPage,
     TasksPage,
     TasksCreatePage,
-    MakeReservationPage
+    MakeReservationPage,
+    ViewReservationsPage,
+    ViewTicketsPage
   ],
   imports: [
     BrowserModule,
@@ -54,7 +58,9 @@ import { DynamoDB } from '../providers/aws.dynamodb';
     TabsPage,
     TasksPage,
     TasksCreatePage,
-    MakeReservationPage
+    MakeReservationPage,
+    ViewReservationsPage,
+    ViewTicketsPage
   ],
   providers: [
     StatusBar,
