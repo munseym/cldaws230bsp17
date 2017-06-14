@@ -6,34 +6,34 @@
 
 // AWS Mobile Hub Project Constants
 const aws_app_analytics = 'enable';
-const aws_auth_facebook = 'enable';
-const aws_cognito_identity_pool_id = 'us-west-2:c508dd08-fc49-4007-a247-a5d4f4260a81';
+const aws_cognito_identity_pool_id = 'us-west-2:dc062166-2edf-4bef-9669-68f1fd52fb7b';
 const aws_cognito_region = 'us-west-2';
 const aws_content_delivery = 'enable';
-const aws_content_delivery_bucket = 'cldawsbsp-contentdelivery-mobilehub-319430049';
-const aws_content_delivery_bucket_region = 'us-east-1';
+const aws_content_delivery_bucket = 'airlinereservation-hosting-mobilehub-779853671';
+const aws_content_delivery_bucket_region = 'us-west-2';
 const aws_dynamodb = 'enable';
 const aws_dynamodb_all_tables_region = 'us-west-2';
-const aws_dynamodb_table_schemas = '[{"tableName":"ionic-mobile-hub-tasks","attributes":[{"name":"userId","type":"S"},{"name":"taskId","type":"S"},{"name":"category","type":"S"},{"name":"created","type":"N"},{"name":"description","type":"S"}],"indexes":[{"indexName":"DateSorted","hashKey":"userId","rangeKey":"created"}],"region":"us-west-2","hashKey":"userId","rangeKey":"taskId"}]';
-const aws_facebook_app_id = '419827191722919';
-const aws_mobile_analytics_app_id = '4d303d5023944147829064e13ce7e9af';
-const aws_project_id = 'bf0630b6-8b29-41f7-b964-48eb26c0e793';
-const aws_project_name = 'cldaws230bsp17';
+const aws_dynamodb_table_schemas = '[{"tableName":"airlinereservation-mobilehub-779853671-Reservations","attributes":[{"name":"userId","type":"S"},{"name":"reservationId","type":"S"},{"name":"Date","type":"S"},{"name":"DestinationCity","type":"S"},{"name":"SourceCity","type":"S"}],"indexes":[],"region":"us-west-2","hashKey":"userId","rangeKey":"reservationId"},{"tableName":"airlinereservation-mobilehub-779853671-Flights","attributes":[{"name":"FlightId","type":"N"},{"name":"Date","type":"S"},{"name":"DestinationCity","type":"S"},{"name":"SourceCity","type":"S"}],"indexes":[],"region":"us-west-2","hashKey":"FlightId"},{"tableName":"ionic-mobile-hub-tasks","attributes":[{"name":"userId","type":"S"},{"name":"taskId","type":"S"},{"name":"category","type":"S"},{"name":"created","type":"N"},{"name":"description","type":"S"}],"indexes":[{"indexName":"DateSorted","hashKey":"userId","rangeKey":"created"}],"region":"us-west-2","hashKey":"userId","rangeKey":"taskId"}]';
+const aws_mobile_analytics_app_id = 'ce378d65b45f4126bf7b4d831b2dc895';
+const aws_project_id = 'ce623c51-c681-49e9-a3cd-dd0ec37d56a1';
+const aws_project_name = 'airline-reservation';
 const aws_project_region = 'us-west-2';
 const aws_push_pinpoint = 'enable';
-const aws_resource_name_prefix = 'cldawsbsp-mobilehub-319430049';
+const aws_resource_name_prefix = 'airlinereservation-mobilehub-779853671';
 const aws_sign_in_enabled = 'enable';
 const aws_user_files = 'enable';
-const aws_user_files_s3_bucket = 'cldawsbsp-userfiles-mobilehub-319430049';
+const aws_user_files_s3_bucket = 'airlinereservation-userfiles-mobilehub-779853671';
 const aws_user_files_s3_bucket_region = 'us-west-2';
 const aws_user_pools = 'enable';
-const aws_user_pools_id = 'us-west-2_8E2G9vuTz';
+const aws_user_pools_id = 'us-west-2_lMZItbCxm';
 const aws_user_pools_mfa_type = 'OFF';
-const aws_user_pools_web_client_id = '2dhhe1jgfjkgfd19dmkchcgq2q';
+const aws_user_pools_web_client_id = '3ql1am3ufpacc5o7k4t82ho2p8';
 const aws_user_settings = 'enable';
 
-AWS.config.region = aws_cognito_region;
+AWS.config.region = aws_project_region;
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: aws_cognito_identity_pool_id
+  }, {
+    region: aws_cognito_region
 });
 AWS.config.update({customUserAgent: 'MobileHub v0.1'});
