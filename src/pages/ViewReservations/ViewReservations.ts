@@ -52,19 +52,19 @@ export class ViewReservationsPage {
     });
   }
 
-  deleteTask(task, index) {
-    // let self = this;
-    // this.db.getDocumentClient().delete({
-    //   'TableName': self.taskTable,
-    //   'Key': {
-    //     'userId': AWS.config.credentials.identityId,
-    //     'taskId': task.taskId
-    //   }
-    // }).promise().then((data) => {
-    //   this.items.splice(index, 1);
-    // }).catch((err) => {
-    //   console.log('there was an error', err);
-    // });
+  deleteTask(item, index) {
+    let self = this;
+    this.db.getDocumentClient().delete({
+      'TableName': self.taskTable,
+      'Key': {
+        'userId': AWS.config.credentials.identityId,
+        'reservationId': item.reservationId
+      }
+    }).promise().then((data) => {
+      this.items.splice(index, 1);
+    }).catch((err) => {
+      console.log('there was an error', err);
+    });
   }
 
 }
