@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -19,6 +19,7 @@ export class MakeReservationPage {
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
+              private alertCtrl: AlertController,
               public user: User,
               public db: DynamoDB) {
   }
@@ -49,5 +50,30 @@ export class MakeReservationPage {
     }, function(err, data) {
       if (err) { console.log(err); }
     });
+  }
+  
+  presentConfirm() {
+    let self = this;
+    let alert = this.alertCtrl.create({
+      title: 'Confirm reservation',
+      message: 'Do you want to confirm this reservation?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            self.makeReservation();
+            console.log('Buy clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
