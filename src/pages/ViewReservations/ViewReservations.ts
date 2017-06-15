@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, Events } from 'ionic-angular';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -18,8 +18,13 @@ export class ViewReservationsPage {
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
+              public events: Events,
               public user: User,
               public db: DynamoDB) {
+                
+    this.events.subscribe('reservation:created', (time) => {
+      this.refreshReservations();
+    });
 
     this.refreshReservations();
   }

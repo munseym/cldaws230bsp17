@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, Events } from 'ionic-angular';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -20,6 +20,7 @@ export class MakeReservationPage {
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               private alertCtrl: AlertController,
+              public events: Events,
               public user: User,
               public db: DynamoDB) {
   }
@@ -50,6 +51,8 @@ export class MakeReservationPage {
     }, function(err, data) {
       if (err) { console.log(err); }
     });
+    
+    this.events.publish('reservation:created', Date.now());
   }
   
   presentConfirm() {
