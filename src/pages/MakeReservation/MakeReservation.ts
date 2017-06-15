@@ -12,7 +12,9 @@ declare var AWS: any;
 })
 export class MakeReservationPage {
 
-  public items: any;
+  public item: any = {
+    'userId': AWS.config.credentials.identityId
+  };
   private taskTable: string = 'airlinereservation-mobilehub-779853671-Reservations';
 
   constructor(public navCtrl: NavController,
@@ -37,16 +39,12 @@ export class MakeReservationPage {
     let id = this.generateId();
     let self = this;
 
-    let item = {
-      'userId': AWS.config.credentials.identityId,
-      'reservationId': id,
-      'SourceCity': 'SFO',
-      'DestinationCity': 'LAX',
-      'Date': '6/20/2017'
-    };
+    this.item.userId = AWS.config.credentials.identityId;
+    this.item.reservationId = id;
+    
     self.db.getDocumentClient().put({
       'TableName': self.taskTable,
-      'Item': item,
+      'Item': this.item,
       'ConditionExpression': 'attribute_not_exists(id)'
     }, function(err, data) {
       if (err) { console.log(err); }

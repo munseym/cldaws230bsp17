@@ -3,11 +3,6 @@
     <ion-title>
       Make a Reservation 
     </ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="addTask()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -15,30 +10,30 @@
   <ion-list>
     <ion-item>
       <ion-label>Date</ion-label>
-      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="item.Date"></ion-datetime>
     </ion-item>
     <ion-item>
       <ion-label>Origin</ion-label>
-      <ion-select [(ngModel)]="sourceCity">
-        <ion-option value="lax">LAX</ion-option>
-        <ion-option value="lga">LGA</ion-option>
-        <ion-option value="ord">ORD</ion-option>
-        <ion-option value="sea">SEA</ion-option>
-        <ion-option value="sfo">SFO</ion-option>
+      <ion-select [(ngModel)]="item.SourceCity">
+        <ion-option value="LAX">Los Angeles (LAX)</ion-option>
+        <ion-option value="LGA">New York (LGA)</ion-option>
+        <ion-option value="ORD">Chicago (ORD)</ion-option>
+        <ion-option value="SEA">Seattle (SEA)</ion-option>
+        <ion-option value="SFO">San Fransisco (SFO)</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
       <ion-label>Destination</ion-label>
-      <ion-select [(ngModel)]="destinationCity">
-        <ion-option value="lax">LAX</ion-option>
-        <ion-option value="lga">LGA</ion-option>
-        <ion-option value="ord">ORD</ion-option>
-        <ion-option value="sea">SEA</ion-option>
-        <ion-option value="sfo">SFO</ion-option>
+      <ion-select [(ngModel)]="item.DestinationCity">
+        <ion-option value="LAX">Los Angeles (LAX)</ion-option>
+        <ion-option value="LGA">New York (LGA)</ion-option>
+        <ion-option value="ORD">Chicago (ORD)</ion-option>
+        <ion-option value="SEA">Seattle (SEA)</ion-option>
+        <ion-option value="SFO">San Fransisco (SFO)</ion-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <button ion-button round large>Confirm Reservation</button>
+      <button ion-button round large (click)="makeReservation()">Confirm Reservation</button>
     </ion-item>
   </ion-list>
 </ion-content>
