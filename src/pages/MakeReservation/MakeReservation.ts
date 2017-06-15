@@ -7,49 +7,18 @@ import { DynamoDB, User } from '../../providers/providers';
 declare var AWS: any;
 
 @Component({
-  selector: 'page-tasks',
+  selector: 'page-make-reservation',
   templateUrl: 'MakeReservation.html'
 })
 export class MakeReservationPage {
 
   public items: any;
-  public refresher: any;
   private taskTable: string = 'airlinereservation-mobilehub-779853671-Reservations';
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
               public user: User,
               public db: DynamoDB) {
-
-    //this.refreshTasks();
-  }
-
-  refreshData(refresher) {
-    this.refresher = refresher;
-    //this.refreshTasks()
-  }
-
-  refreshTasks() {
-    var self = this;
-    this.db.getDocumentClient().query({
-      'TableName': self.taskTable,
-      'KeyConditionExpression': "#userId = :userId",
-      'ExpressionAttributeNames': {
-        '#userId': 'userId',
-      },
-      'ExpressionAttributeValues': {
-        //':userId': self.user.getUser().getUsername(),
-        ':userId': AWS.config.credentials.identityId
-      },
-      'ScanIndexForward': false
-    }).promise().then((data) => {
-      this.items = data.Items;
-      if (this.refresher) {
-        this.refresher.complete();
-      }
-    }).catch((err) => {
-      console.log(err);
-    });
   }
 
   generateId() {
@@ -64,7 +33,7 @@ export class MakeReservationPage {
     return result.toLowerCase();
   }
 
-  addTask() {
+  makeReservation() {
     let id = this.generateId();
     let self = this;
 
@@ -81,23 +50,6 @@ export class MakeReservationPage {
       'ConditionExpression': 'attribute_not_exists(id)'
     }, function(err, data) {
       if (err) { console.log(err); }
-      self.refreshTasks();
     });
   }
-
-  deleteTask(task, index) {
-    let self = this;
-    this.db.getDocumentClient().delete({
-      'TableName': self.taskTable,
-      'Key': {
-        'userId': AWS.config.credentials.identityId,
-        'taskId': task.taskId
-      }
-    }).promise().then((data) => {
-      this.items.splice(index, 1);
-    }).catch((err) => {
-      console.log('there was an error', err);
-    });
-  }
-
 }

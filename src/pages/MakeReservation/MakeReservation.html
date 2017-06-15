@@ -12,28 +12,34 @@
 </ion-header>
 
 <ion-content>
-  <ion-refresher (ionRefresh)="refreshData($event)">
-    <ion-refresher-content
-                  pullingIcon="arrow-dropdown"
-                  pullingText="Pull to refresh"
-                  refreshingSpinner="circles"
-                  refreshingText="Refreshing...">
-    </ion-refresher-content>
-  </ion-refresher>
-
-    <input type="date">
-
-    <ion-list>
-      <ion-item-sliding *ngFor="let item of items; let idx = index;">
-        <button ion-item>
-          <h2>{{item.category}}</h2>
-          <p>{{item.description}}</p>
-        </button>
-
-        <ion-item-options>
-          <button ion-button color="danger" (click)="deleteTask(item, idx)">DELETE</button>
-        </ion-item-options>
-      </ion-item-sliding>
-    </ion-list>
+  <ion-list>
+    <ion-item>
+      <ion-label>Date</ion-label>
+      <ion-datetime displayFormat="MM/DD/YYYY" [(ngModel)]="myDate"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label>Origin</ion-label>
+      <ion-select [(ngModel)]="sourceCity">
+        <ion-option value="lax">LAX</ion-option>
+        <ion-option value="lga">LGA</ion-option>
+        <ion-option value="ord">ORD</ion-option>
+        <ion-option value="sea">SEA</ion-option>
+        <ion-option value="sfo">SFO</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Destination</ion-label>
+      <ion-select [(ngModel)]="destinationCity">
+        <ion-option value="lax">LAX</ion-option>
+        <ion-option value="lga">LGA</ion-option>
+        <ion-option value="ord">ORD</ion-option>
+        <ion-option value="sea">SEA</ion-option>
+        <ion-option value="sfo">SFO</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <button ion-button round large>Confirm Reservation</button>
+    </ion-item>
+  </ion-list>
 </ion-content>
 
