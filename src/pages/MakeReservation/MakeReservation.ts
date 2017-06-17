@@ -4,6 +4,8 @@ import { NavController, ModalController, AlertController, Events } from 'ionic-a
 
 import { DynamoDB, User } from '../../providers/providers';
 
+import { Screenshot } from '@ionic-native/screenshot';
+
 declare var AWS: any;
 
 @Component({
@@ -22,9 +24,9 @@ export class MakeReservationPage {
               private alertCtrl: AlertController,
               public events: Events,
               public user: User,
-              public db: DynamoDB) {
-  }
-
+              public db: DynamoDB,
+              private screenshot: Screenshot){
+}
   generateId() {
     var len = 16;
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -43,7 +45,7 @@ export class MakeReservationPage {
 
     this.item.userId = AWS.config.credentials.identityId;
     this.item.reservationId = id;
-    
+    console.log(JSON.stringify(this.item));    
     self.db.getDocumentClient().put({
       'TableName': self.taskTable,
       'Item': this.item,
@@ -51,10 +53,19 @@ export class MakeReservationPage {
     }, function(err, data) {
       if (err) { console.log(err); }
     });
-    
+
+    self.screenshot.URI(80).then(this.onSuccess, this.onError);  
     this.events.publish('reservation:created', Date.now());
   }
+
+  onSuccess(success){
+    alert(JSON.stringify(success));
+  }
   
+  onError(err){
+    alert(JSON.stringify(err));  
+  }
+
   presentConfirm() {
     let self = this;
     let alert = this.alertCtrl.create({
