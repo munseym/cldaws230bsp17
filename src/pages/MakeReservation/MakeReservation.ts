@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController, AlertController, Events } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -21,12 +21,11 @@ export class MakeReservationPage {
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
-              private alertCtrl: AlertController,
-              public events: Events,
               public user: User,
               public db: DynamoDB,
-              private screenshot: Screenshot){
-}
+              private screenshot: Screenshot) {
+  }
+
   generateId() {
     var len = 16;
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -45,7 +44,8 @@ export class MakeReservationPage {
 
     this.item.userId = AWS.config.credentials.identityId;
     this.item.reservationId = id;
-    console.log(JSON.stringify(this.item));    
+    console.log(JSON.stringify(this.item));
+    
     self.db.getDocumentClient().put({
       'TableName': self.taskTable,
       'Item': this.item,
@@ -54,40 +54,16 @@ export class MakeReservationPage {
       if (err) { console.log(err); }
     });
 
-    self.screenshot.URI(80).then(this.onSuccess, this.onError);  
-    this.events.publish('reservation:created', Date.now());
+    var filename = new Date().getTime().toString();
+    alert(filename);
+    self.screenshot.URI(80).then(this.onSuccess, this.onError);
   }
-
+  
   onSuccess(success){
-    alert(JSON.stringify(success));
+    alert(success);
   }
   
   onError(err){
-    alert(JSON.stringify(err));  
-  }
-
-  presentConfirm() {
-    let self = this;
-    let alert = this.alertCtrl.create({
-      title: 'Confirm reservation',
-      message: 'Do you want to confirm this reservation?',
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: () => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Confirm',
-          handler: () => {
-            self.makeReservation();
-            console.log('Buy clicked');
-          }
-        }
-      ]
-    });
-    alert.present();
+    alert(err);  
   }
 }
