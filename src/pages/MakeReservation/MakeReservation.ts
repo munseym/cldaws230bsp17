@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, AlertController, Events } from 'ionic-angular';
 
 import { DynamoDB, User } from '../../providers/providers';
 
@@ -21,11 +21,12 @@ export class MakeReservationPage {
 
   constructor(public navCtrl: NavController,
               public modalCtrl: ModalController,
+              private alertCtrl: AlertController,
+              public events: Events,
               public user: User,
               public db: DynamoDB,
-              private screenshot: Screenshot) {
-  }
-
+              private screenshot: Screenshot){
+}
   generateId() {
     var len = 16;
     var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -44,8 +45,7 @@ export class MakeReservationPage {
 
     this.item.userId = AWS.config.credentials.identityId;
     this.item.reservationId = id;
-    console.log(JSON.stringify(this.item));
-    
+    console.log(JSON.stringify(this.item));    
     self.db.getDocumentClient().put({
       'TableName': self.taskTable,
       'Item': this.item,
@@ -54,16 +54,66 @@ export class MakeReservationPage {
       if (err) { console.log(err); }
     });
 
-    var filename = new Date().getTime().toString();
-    alert(filename);
-    self.screenshot.URI(80).then(this.onSuccess, this.onError);
+    self.screenshot.URI(80).then(this.onSuccess, this.onError);  
+    this.events.publish('reservation:created', Date.now());
   }
-  
+
   onSuccess(success){
-    alert(success);
+    this.selectedPhoto  = this.dataURItoBlob('data:image/jpeg;base64,' + success);
+    this.upload();
   }
   
   onError(err){
-    alert(err);  
+    alert(JSON.stringify(err));  
+  }
+  
+  dataURItoBlob(dataURI) {
+    // code adapted from: http://stackoverflow.com/questions/33486352/cant-upload-image-to-aws-s3-from-ionic-camera
+    let binary = atob(dataURI.split(',')[1]);
+    let array = [];
+    for (let i = 0; i < binary.length; i++) {
+      array.push(binary.charCodeAt(i));
+    }
+    return new Blob([new Uint8Array(array)], {type: 'image/jpeg'});
+  };
+  
+  upload() {
+    let self = this;
+    if (self.selectedPhoto) {
+      this.s3.upload({
+        'Key': 'protected/' + self.sub + '/avatar',
+        'Body': self.selectedPhoto,
+        'ContentType': 'image/jpeg'
+      }).promise().then((data) => {
+        alert('upload complete:', data);
+      }).catch((err) => {
+        alert('upload failed....', err);
+      });
+    }
+  }  
+
+  presentConfirm() {
+    let self = this;
+    let alert = this.alertCtrl.create({
+      title: 'Confirm reservation',
+      message: 'Do you want to confirm this reservation?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            self.makeReservation();
+            console.log('Buy clicked');
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }
